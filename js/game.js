@@ -69,15 +69,17 @@ class Game {
     }
 
     _checkBullets() {
-        const missile = this._bullet
+        const missile = this.ship.weapon.bullets
         this._asteroids.forEach(asteroid => {
+            missile.forEach(missile => {
             const astX = asteroid.x < ((missile.x) + (missile.w)) && ((asteroid.x) + (asteroid.w)) > missile.x;
             const astY = ((asteroid.y) + (asteroid.h)) > missile.y && asteroid.y < ((missile.y) + (missile.h));
+            
             if (astX && astY) {
                 this._gameOver()
             }
+          })
         })
-
     }
 
     _gameOver() {
