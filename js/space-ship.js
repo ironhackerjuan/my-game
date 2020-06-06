@@ -2,8 +2,8 @@ class Ship {
     constructor(ctx) {
         this._ctx = ctx
 
-        this.x = this._ctx.canvas.width * 0.42
-        this.y = this._ctx.canvas.height * 0.8
+        this.x = CANVAS_WIDTH * 0.42
+        this.y = CANVAS_HEIGHT * 0.8
 
         this.w = 75
         this.h = 75
@@ -18,11 +18,14 @@ class Ship {
             right: false,
             left: false,
             up: false, 
-            down: false
+            down: false,
+            shoot: false
         }
 
         this._img = new Image ()
         this._img.src = "./images/nave.png"
+
+        this.weapon = new Weapon(this)
 
         this._setListeners()
     }
@@ -34,11 +37,14 @@ class Ship {
             this.y,
             this.w,
             this.h
-        )
+        );
+
+        this.weapon.draw()
     }
 
     move() {
         this._applyActions()
+        this.weapon.move()
     }
 
     _setListeners() {
@@ -59,14 +65,18 @@ class Ship {
             this.y += 1.5
         }
 
-        if(this.x >= this._ctx.canvas.width) {
-            this.x = 0 - this.w
-        } else if (this.x < 0 - this.w) {
-            this.x = this._ctx.canvas.width
+        if(this.actions.shoot) {
+            this.weapon.shoot()
         }
 
-        if (this.y >= this._ctx.canvas.height *0.85) {
-            this.y = this._ctx.canvas.height * 0.85
+        if(this.x >= CANVAS_WIDTH) {
+            this.x = 0 - this.w
+        } else if (this.x < 0 - this.w) {
+            this.x = CANVAS_WIDTH
+        }
+
+        if (this.y >= CANVAS_HEIGHT *0.85) {
+            this.y = CANVAS_HEIGHT * 0.85
         } else if (this.y < 0) {
             this.y = 0
         }
@@ -85,6 +95,10 @@ class Ship {
                 break;
             case DOWN:
                 this.actions.down = apply
+                break;
+            case SPACE:
+                this.actions.shoot = apply
+                break;
         }
     }
 }

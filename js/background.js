@@ -5,8 +5,8 @@ class Background {
         this.x = 0
         this.y = 0
         
-        this.w = this._ctx.canvas.width
-        this.h = this._ctx.canvas.height
+        this.w = CANVAS_WIDTH
+        this.h = CANVAS_HEIGHT
 
         this.vx = 0
         this.vy = 0.675
@@ -39,3 +39,22 @@ class Background {
         }
     }
 }
+
+function resize() {
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+  
+      // calculate the scale factor to keep a correct aspect ratio
+    let scaleFactor = Math.min(w / CANVAS_WIDTH, h / CANVAS_HEIGHT);
+    
+    if (IS_CHROME) {
+      canvas.width = CANVAS_WIDTH * scaleFactor;
+      canvas.height = CANVAS_HEIGHT * scaleFactor;
+      setImageSmoothing(false);
+      ctx.transform(scaleFactor, 0, 0, scaleFactor, 0, 0);   
+    } else {
+      // resize the canvas css properties
+      canvas.style.width = CANVAS_WIDTH * scaleFactor + 'px';
+      canvas.style.height = CANVAS_HEIGHT * scaleFactor + 'px'; 
+    }
+  }
