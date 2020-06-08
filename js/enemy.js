@@ -1,14 +1,15 @@
 class Enemy {
-    constructor(ctx) {
+    constructor(ctx, x, y) {
         this._ctx = ctx
+        this.live = 1000
         
-        this.x = 0
-        this.y = 0
+        this.x = x
+        this.y = y
 
         this.w = 70
         this.h = 35
         
-        this.vy = 0
+        this.vx = 10
 
         this._img = new Image()
         this._img.src = "./images/Enemy Ships.png"
@@ -35,7 +36,19 @@ class Enemy {
     }
 
     move() {
-        this.y -= this.vy
+        this.x -= this.vx
+
+        if(this.x >= CANVAS_WIDTH) {
+            this.x = 0 - this.w
+        } else if (this.x < 0 - this.w) {
+            this.x = CANVAS_WIDTH
+        }
+
+        if (this.y >= CANVAS_HEIGHT *0.85) {
+            this.y = CANVAS_HEIGHT * 0.85
+        } else if (this.y < 0) {
+            this.y = 0
+        }
     }
 
     _animate() {

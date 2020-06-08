@@ -30,6 +30,7 @@ class Background {
             this.w,
             this.h
         )
+
     }
 
     move() {
@@ -38,6 +39,7 @@ class Background {
             this.y = 0
         }
     }
+
 }
 
 function resize() {

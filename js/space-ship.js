@@ -1,6 +1,7 @@
 class Ship {
     constructor(ctx) {
         this._ctx = ctx
+        this._tick = 0
 
         this.x = CANVAS_WIDTH * 0.42
         this.y = CANVAS_HEIGHT * 0.8
@@ -66,7 +67,7 @@ class Ship {
         }
 
         if(this.actions.shoot) {
-            this.weapon.shoot()
+                this.weapon.shoot()
         }
 
         if(this.x >= CANVAS_WIDTH) {
@@ -75,8 +76,8 @@ class Ship {
             this.x = CANVAS_WIDTH
         }
 
-        if (this.y >= CANVAS_HEIGHT *0.85) {
-            this.y = CANVAS_HEIGHT * 0.85
+        if (this.y >= CANVAS_HEIGHT *0.80) {
+            this.y = CANVAS_HEIGHT * 0.80
         } else if (this.y < 0) {
             this.y = 0
         }
