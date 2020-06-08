@@ -17,6 +17,13 @@ body, html{
   
   .logo-img {
     width: 250px;
+    display: block;
+    margin: auto;
+    position :absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 
   #game-board {
@@ -31,7 +38,7 @@ canvas {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+
   
   image-rendering: optimizeSpeed;;
   image-rendering: crisp-edges;

@@ -1,10 +1,6 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-
-setImageSmoothing(false);
-
-
 function startGame() {
     const game = new Game(ctx)
 

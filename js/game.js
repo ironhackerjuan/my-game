@@ -11,6 +11,7 @@ class Game {
         this._ship = new Ship(ctx)
         this._bullet = new Bullet(ctx)
         this._enemies = new Enemy(ctx, 0, 0)
+        this.hasGameStarted = false;
     }
 
     start() {
@@ -143,4 +144,10 @@ class Game {
         this._ctx.fillText('SCORE: ' + this.score, CANVAS_WIDTH/2 - 20, 20);
       }
 
+    drawStartScreen() {
+        fillCenteredText("BIL Invaders", CANVAS_WIDTH/2, CANVAS_HEIGHT/2.75, '#702f8a', 36);
+        fillBlinkingText("Press enter to play !", CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 500, '#FFFFFF', 36);
+        fillCenteredText("Then on spacebar to shoot", CANVAS_WIDTH/2, CANVAS_HEIGHT/1.5, '#05c3de', 36);
+      }
+      
 }
