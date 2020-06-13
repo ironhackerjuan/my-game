@@ -7,6 +7,13 @@ body, html{
 
 body {
   background: url(../images/space-bg.jpg) no-repeat center center / cover;
+  display: block;
+  margin: auto;
+  position :absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
   
 

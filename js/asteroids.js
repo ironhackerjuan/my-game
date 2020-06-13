@@ -1,5 +1,5 @@
 class Asteroid {
-    constructor(ctx) {
+    constructor(ctx, vy = 3) {
         this._ctx = ctx
 
         this.x = Math.random() * 500
@@ -8,7 +8,7 @@ class Asteroid {
         this.w = (Math.random() * 50) + 26
         this.h = (Math.random() * 50) + 25
 
-        this.vy = 3
+        this.vy = vy
 
         this._img = new Image ()
         this._img.src = "./images/asteroid.png"
