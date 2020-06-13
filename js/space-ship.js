@@ -28,6 +28,7 @@ class Ship {
 
         this.weapon = new Weapon(this)
         this.lastShoot = null
+        this._audioMissil = new Audio('sounds/misil.mp3')
 
         this._setListeners()
     }
@@ -71,6 +72,7 @@ class Ship {
             const now = new Date().getTime()
             if (!this.lastShoot || (this.lastShoot && now - this.lastShoot > 1000)) {
                 this.weapon.shoot()
+                this._audioMissil.play()
                 this.lastShoot = now
             }
         } else if (!this.actions.shoot && this.lastShoot) {

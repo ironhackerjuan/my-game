@@ -15,14 +15,17 @@ class Game {
             return new Enemy(ctx, enemy.x, enemy.y)
         })
 
-        this._audio = new Audio("sounds/game-over.mp3")
+        this._audio = new Audio('sounds/space-odyssey.mp3')
         this._audio.loop = true
-        this._gameOverAudio = new Audio("sounds/game-over.mp3")
+        this._audioCrash = new Audio('sounds/astToShip.mp3')
+        this._audioCrashEnemy = new Audio('sounds/enemyCrash.mp3')
+        this._gameOverAudio = new Audio('sounds/game-over.mp3')
+        this._audioCrashAst = new Audio('sounds/crashAst.mp3')
 
     }
 
     start() {
-        //this._audio.play()
+        this._audio.play()
         this._intervalId = setInterval(() => {
             this._clear()
             this._draw()
@@ -78,6 +81,7 @@ class Game {
             const astX = asteroid.x < ((ship.x - 15) + (ship.w - 5)) && ((asteroid.x - 15) + (asteroid.w - 5)) > ship.x;
             const astY = ((asteroid.y - 5) + (asteroid.h - 5)) > ship.y && asteroid.y < ((ship.y -15) + (ship.h - 15));
             if (astX && astY) {
+                this._audioCrash.play()
                 this.lives -= 1  
                 this._asteroids.splice(i, 1)
                 if (this.lives < 0) {
@@ -94,6 +98,7 @@ class Game {
             const astX = asteroid.x < ((missil.x) + (missil.w)) && ((asteroid.x - 15) + (asteroid.w - 5)) > missil.x;
             const astY = ((asteroid.y - 5) + (asteroid.h - 5)) > missil.y && asteroid.y < ((missil.y - 5) + (missil.h - 5));
             if (astX && astY) {
+                this._audioCrashAst.play()
                 missile.splice(missil)
                 this._asteroids = this._asteroids.filter(el => el !== asteroid)
                 this.score += 5
@@ -109,6 +114,7 @@ class Game {
             const astX = enemy.x < ((missil.x) + (missil.w)) && ((enemy.x - 15) + (enemy.w - 5)) > missil.x;
             const astY = ((enemy.y - 5) + (enemy.h - 5)) > missil.y && enemy.y < ((missil.y - 5) + (missil.h - 5));
                 if (astX && astY) {
+                    this._audioCrashEnemy.play()
                     missile.splice(b, 1)
                     this.score += 300
                     this._enemies.splice(a, 1)
@@ -127,6 +133,7 @@ class Game {
     }
 
     _gameOver() {
+        this._audio.pause()
         this._gameOverAudio.play()
         clearInterval(this._intervalId)
         this._ctx.font = "40px Comic Sans MS";
@@ -156,7 +163,7 @@ class Game {
     drawBottomHud() {
         this._ctx.fillStyle = '#FFF';
         this._ctx.fillRect(0, CANVAS_HEIGHT - 25, CANVAS_WIDTH, 2);
-        this._ctx.fillText('Pandora B-12', CANVAS_WIDTH - 50, CANVAS_HEIGHT - 7.5);
+        this._ctx.fillText('Pandora B-12', CANVAS_WIDTH - 50, CANVAS_HEIGHT - 10);
         this._ctx.fillText('Lives: ' + this.lives, CANVAS_WIDTH - 500, CANVAS_HEIGHT - 7.5);
         this._ctx.fillText('SCORE: ' + this.score, CANVAS_WIDTH/2 - 20, 20);
       }
