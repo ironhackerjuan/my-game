@@ -133,6 +133,7 @@ class Game {
             CANVAS_WIDTH / 2,
             CANVAS_HEIGHT / 2
         )
+        
     }
 
     _gameWin() {
