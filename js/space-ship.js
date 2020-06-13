@@ -27,6 +27,7 @@ class Ship {
         this._img.src = "./images/nave.png"
 
         this.weapon = new Weapon(this)
+        this.lastShoot = null
 
         this._setListeners()
     }
@@ -67,7 +68,13 @@ class Ship {
         }
 
         if(this.actions.shoot) {
+            const now = new Date().getTime()
+            if (!this.lastShoot || (this.lastShoot && now - this.lastShoot > 1000)) {
                 this.weapon.shoot()
+                this.lastShoot = now
+            }
+        } else if (!this.actions.shoot && this.lastShoot) {
+            this.lastShoot = null
         }
 
         if(this.x >= CANVAS_WIDTH) {

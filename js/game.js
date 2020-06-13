@@ -10,8 +10,10 @@ class Game {
         this._asteroids = []
         this._ship = new Ship(ctx)
         this._bullet = new Bullet(ctx)
-        this._enemies = new Enemy(ctx, 0, 0)
-        this.hasGameStarted = false;
+        this._enemies = ENEMIES_COORDINATES.map(enemy => {
+            return new Enemy(ctx, enemy.x, enemy.y)
+        })
+
     }
 
     start() {
@@ -49,26 +51,28 @@ class Game {
         this._bg.draw()
         this._asteroids.forEach(asteroid => asteroid.draw())
         this._ship.draw()
-        this._enemies.draw()
+        this._enemies.forEach(enemy => {enemy.draw()})
+        //this._enemies.draw()
         this._bullet.draw()
     }
 
     _move() {
         this._bg.move()
         this._asteroids.forEach(asteroid => asteroid.move())
-        this._enemies.move()
+        //this._enemies.forEach(enemy => {enemy.move()})
+        //this._enemies.move()
         this._ship.move()
         this._bullet.move()
     }
 
     _checkAsteroids() {
         const ship = this._ship 
-        this._asteroids.forEach(asteroid => {
+        this._asteroids.forEach((asteroid, i) => {
             const astX = asteroid.x < ((ship.x - 15) + (ship.w - 5)) && ((asteroid.x - 15) + (asteroid.w - 5)) > ship.x;
             const astY = ((asteroid.y - 5) + (asteroid.h - 5)) > ship.y && asteroid.y < ((ship.y -15) + (ship.h - 15));
             if (astX && astY) {
                 this.lives -= 1  
-                this._asteroids.splice(asteroid, 1)
+                this._asteroids.splice(i, 1)
                 console.log(this.lives)
                 if (this.lives < 0) {
                 this._gameOver()
@@ -79,13 +83,13 @@ class Game {
 
     _checkBullets() {
         const missile = this._ship.weapon.bullets
-        this._asteroids.forEach(asteroid => {
+        this._asteroids.forEach((asteroid, a) => {
             missile.forEach(missil => {
             const astX = asteroid.x < ((missil.x) + (missil.w)) && ((asteroid.x - 15) + (asteroid.w - 5)) > missil.x;
             const astY = ((asteroid.y - 5) + (asteroid.h - 5)) > missil.y && asteroid.y < ((missil.y - 5) + (missil.h - 5));
             if (astX && astY) {
                 missile.splice(missil)
-                this._asteroids.splice(asteroid, 1)
+                this._asteroids.splice(a, 1)
                 this.score += 5
                 console.log(this.score)
             }
@@ -94,18 +98,26 @@ class Game {
     }
 
     _checkEnemies() {
-        const enemy = this._enemies 
-        this._ship.weapon.bullets.forEach(missil => {
-            const astX = missil.x < ((enemy.x - 15) + (enemy.w - 5)) && ((missil.x - 15) + (missil.w - 5)) > enemy.x;
-            const astY = ((missil.y - 5) + (missil.h - 5)) > enemy.y && missil.y < ((enemy.y -15) + (enemy.h - 15));
-            if (astX && astY) {
-                this.score += 300
-                this._enemies.live -= 5
-                console.log(this._enemies.live)
-            }
-            if (this._enemies.live < 0) {
-                this._gameWin
-            }
+        const missile = this._ship.weapon.bullets
+        this._enemies.forEach((enemy, a) => {
+            missile.forEach((missil, b) => {
+            const astX = enemy.x < ((missil.x) + (missil.w)) && ((enemy.x - 15) + (enemy.w - 5)) > missil.x;
+            const astY = ((enemy.y - 5) + (enemy.h - 5)) > missil.y && enemy.y < ((missil.y - 5) + (missil.h - 5));
+                if (astX && astY) {
+                    missile.splice(b, 1)
+                    this.score += 300
+                    this._enemies.live -= 500
+                    this._enemies.splice(a, 1)
+
+                    // if (this._enemies.live <= 0) {
+                    //     this._enemies.splice(a, 1)
+                    // }
+                    console.log(this._enemies.live)
+                }
+                if (this._enemies.live <= 0) {
+                    this._gameWin()
+                }
+            })
         })
     }
 

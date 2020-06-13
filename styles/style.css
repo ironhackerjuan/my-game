@@ -5,18 +5,12 @@ body, html{
   overflow: hidden;
 }
   
-  .game-intro {
-    float: left;
-    padding: 0% 10%;
+  #game-intro{
+    color: white;
   }
-  
-  .game-intro p {
-    font-size: 18px;
-    font-family: "Verdana"
-  }
-  
+
   .logo-img {
-    width: 250px;
+    width: 512px;
     display: block;
     margin: auto;
     position :absolute;
@@ -38,11 +32,10 @@ canvas {
   top: 0;
   left: 0;
   right: 0;
+  bottom: 0;
+}
 
-  
-  image-rendering: optimizeSpeed;;
-  image-rendering: crisp-edges;
-  image-rendering: optimizeQuality;
-  image-rendering: auto;
-
+.inactive {
+  pointer-events: none;
+  display: none;
 }

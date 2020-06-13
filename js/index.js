@@ -2,32 +2,22 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 function startGame() {
-    const game = new Game(ctx)
+  ['game-intro', 'game-board'].forEach(id => {
+    document.getElementById(id).classList.toggle('inactive')
+  })
 
-    game.start()
+  const game = new Game(ctx)
+  game.start()
+
+  document.querySelector('canvas').focus()
 }
 
 window.onload = () => {
-    document.getElementById('start-button').onclick = () => {
-        startGame();
-    };
+  document.getElementById('start-button').onclick = () => {
+      startGame();
+  };
 };
 
-function setImageSmoothing(value) {
-    ctx['imageSmoothingEnabled'] = value;
-    ctx['mozImageSmoothingEnabled'] = value;
-    ctx['oImageSmoothingEnabled'] = value;
-    ctx['webkitImageSmoothingEnabled'] = value;
-    ctx['msImageSmoothingEnabled'] = value;
-  }
-
-
-  function drawStartScreen() {
-    fillCenteredText("BIL Invaders", CANVAS_WIDTH/2, CANVAS_HEIGHT/2.75, '#702f8a', 36);
-    fillBlinkingText("Press enter to play !", CANVAS_WIDTH/2, CANVAS_HEIGHT/2, 500, '#FFFFFF', 36);
-    fillCenteredText("Then on spacebar to shoot", CANVAS_WIDTH/2, CANVAS_HEIGHT/1.5, '#05c3de', 36);
-  }
-  
 
 window.addEventListener('resize', resize);
 
@@ -41,7 +31,6 @@ function resize() {
     if (IS_CHROME) {
       canvas.width = CANVAS_WIDTH * scaleFactor;
       canvas.height = CANVAS_HEIGHT * scaleFactor;
-      setImageSmoothing(false);
       ctx.transform(scaleFactor, 0, 0, scaleFactor, 0, 0);   
     } else {
       // resize the canvas css properties
