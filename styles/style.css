@@ -4,6 +4,11 @@ body, html{
   height: 100%;
   overflow: hidden;
 }
+
+body {
+  background-image: url("https://files.slack.com/files-pri/T010VKSPA14-F015CAFBCCS/space-bg.jpg");
+  background-repeat: no-repeat;
+}
   
   #game-intro{
     color: white;
