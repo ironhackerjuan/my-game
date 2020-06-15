@@ -1,17 +1,17 @@
-class Asteroid {
-    constructor(ctx, vy = 3) {
+class Live {
+    constructor(ctx) {
         this._ctx = ctx
 
         this.x = Math.random() * 500
         this.y = -50
 
-        this.w = (Math.random() * 50) + 26
-        this.h = (Math.random() * 50) + 25
+        this.w = 25
+        this.h = 25
 
-        this.vy = vy
+        this.vy = 4
 
         this._img = new Image ()
-        this._img.src = "./images/asteroid.png"
+        this._img.src = "./images/nave.png"
     }
 
     draw() {

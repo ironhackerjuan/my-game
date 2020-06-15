@@ -4,11 +4,12 @@ class Game {
         this._intervalId = null;
         this._tick = 0;
         this.score = 0
-        this.lives = 3
+        this.lives = 2
         this.asteroidsVY = 3
 
         this._bg = new Background(ctx)
         this._asteroids = []
+        this._lives = []
         this._ship = new Ship(ctx)
         this._bullet = new Bullet(ctx)
         this._enemies = ENEMIES_COORDINATES.map(enemy => {
@@ -31,11 +32,15 @@ class Game {
             this._draw()
             this.drawBottomHud()
             this._move()
+            this._checkIfWin()
             this._checkBullets()
             this._addAsteroid()
+            this._addLive()
             this._checkEnemies()
             this._checkAsteroids()
-            this._clearAsteroids
+            this._checkLives()
+            this._clearAsteroids()
+            this._clearLive()
             this._checkIfEmpty()
             this._tick++
             if (this._tick >= 10000) {
@@ -53,12 +58,23 @@ class Game {
         this._asteroids.push(new Asteroid(this._ctx, this.asteroidsVY))
     }
 
+    _clearLive() {
+        this._lives = this._lives.filter(a => a.isVisible())
+    }
+
+    _addLive() {
+        if (this._tick % 2000) return
+        this._lives.push(new Live(this._ctx))
+        console.log(this._tick)
+    }
+
     _clear() {
         this._ctx.clearRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height)
     }
 
     _draw() {
         this._bg.draw()
+        this._lives.forEach(live => live.draw())
         this._asteroids.forEach(asteroid => asteroid.draw())
         this._ship.draw()
         this._enemies.forEach(enemy => {enemy.draw()})
@@ -68,6 +84,7 @@ class Game {
 
     _move() {
         this._bg.move()
+        this._lives.forEach(live => live.move())
         this._asteroids.forEach(asteroid => asteroid.move())
         //this._enemies.forEach(enemy => {enemy.move()})
         //this._enemies.move()
@@ -79,7 +96,7 @@ class Game {
         const ship = this._ship 
         this._asteroids.forEach((asteroid, i) => {
             const astX = asteroid.x < ((ship.x - 15) + (ship.w - 5)) && ((asteroid.x - 15) + (asteroid.w - 5)) > ship.x;
-            const astY = ((asteroid.y - 5) + (asteroid.h - 5)) > ship.y && asteroid.y < ((ship.y -15) + (ship.h - 15));
+            const astY = ((asteroid.y - 5) + (asteroid.h - 20)) > ship.y && asteroid.y < ((ship.y -15) + (ship.h - 15));
             if (astX && astY) {
                 this._audioCrash.play()
                 this.lives -= 1  
@@ -87,6 +104,19 @@ class Game {
                 if (this.lives < 0) {
                 this._gameOver()
                 }
+            }
+        })
+    }
+
+    _checkLives() {
+        const ship = this._ship 
+        this._lives.forEach((live, i) => {
+            const astX = live.x < ((ship.x - 15) + (ship.w - 5)) && ((live.x - 15) + (live.w - 5)) > ship.x;
+            const astY = ((live.y - 5) + (live.h - 20)) > ship.y && live.y < ((ship.y -15) + (ship.h - 15));
+            if (astX && astY) {
+                this._audioCrash.play()
+                this.lives += 1  
+                this._lives.splice(i, 1)
             }
         })
     }
@@ -132,6 +162,12 @@ class Game {
         }
     }
 
+    _checkIfWin() {
+        if(this.score >= 100000) {
+            this._gameWin()
+        }
+    }
+
     _gameOver() {
         this._audio.pause()
         this._gameOverAudio.play()
@@ -144,7 +180,11 @@ class Game {
             CANVAS_WIDTH / 2,
             CANVAS_HEIGHT / 2
         )
-
+        this._ctx.fillText(
+            "Press F5 to restart",
+            CANVAS_WIDTH / 2,
+            CANVAS_HEIGHT / 2 + 50,
+        )
     }
 
     _gameWin() {
@@ -163,7 +203,7 @@ class Game {
     drawBottomHud() {
         this._ctx.fillStyle = '#FFF';
         this._ctx.fillRect(0, CANVAS_HEIGHT - 25, CANVAS_WIDTH, 2);
-        this._ctx.fillText('Pandora B-12', CANVAS_WIDTH - 50, CANVAS_HEIGHT - 10);
+        this._ctx.fillText('Pandora B-12', CANVAS_WIDTH - 65, CANVAS_HEIGHT - 7.5);
         this._ctx.fillText('Lives: ' + this.lives, CANVAS_WIDTH - 500, CANVAS_HEIGHT - 7.5);
         this._ctx.fillText('SCORE: ' + this.score, CANVAS_WIDTH/2 - 20, 20);
       }
