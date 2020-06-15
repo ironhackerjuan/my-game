@@ -181,10 +181,13 @@ class Game {
             CANVAS_HEIGHT / 2
         )
         this._ctx.fillText(
-            "Press F5 to restart",
+            "Restart in 10 seconds",
             CANVAS_WIDTH / 2,
             CANVAS_HEIGHT / 2 + 50,
         )
+        setTimeout(() => {
+            window.location.reload()
+        }, 10000);
     }
 
     _gameWin() {

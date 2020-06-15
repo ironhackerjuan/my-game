@@ -28,10 +28,10 @@ class Live {
         this.y += this.vy
     }
 
-    // isVisible() {
-    //     return (
-    //       this.x < this.ctx.canvas.width * 2 &&
-    //       this.x > 0 - this.ctx.canvas.width
-    //     )
-    //   }
+    isVisible() {
+        return (
+          this.x < this._ctx.canvas.width * 2 &&
+          this.x > 0 - this._ctx.canvas.width
+        )
+      }
 }
